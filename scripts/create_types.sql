@@ -11,7 +11,7 @@ CREATE TABLE booking_platform.transport_types(
 CREATE TABLE booking_platform.carries(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    transport_type_id INT REFERENCES booking_platform.transport_types(id),
+    transport_type_id INT NOT NULL REFERENCES booking_platform.transport_types(id),
     country VARCHAR(100),
     contact_email VARCHAR(254),
     contact_phone VARCHAR(30)
@@ -19,8 +19,8 @@ CREATE TABLE booking_platform.carries(
 
 CREATE TABLE booking_platform.vehicles(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    carrier_id INT REFERENCES booking_platform.carries(id),
-    transport_type_id INT REFERENCES transport_types(id),
+    carrier_id INT NOT NULL REFERENCES booking_platform.carries(id),
+    transport_type_id INT NOT NULL REFERENCES transport_types(id),
     model VARCHAR(100) NOT NULL,
     registration_code VARCHAR(50) NOT NULL UNIQUE,
     capacity SMALLINT NOT NULL CHECK (capacity > 0),
@@ -39,9 +39,9 @@ CREATE TABLE booking_platform.stations(
 
 CREATE TABLE booking_platform.routes(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    carrier_id INT REFERENCES booking_platform.carries(id),
-    origin_station_id INT REFERENCES booking_platform.stations(id),
-    dest_station_id INT REFERENCES booking_platform.stations(id),
+    carrier_id INT NOT NULL REFERENCES booking_platform.carries(id),
+    origin_station_id INT NOT NULL REFERENCES booking_platform.stations(id),
+    dest_station_id INT NOT NULL REFERENCES booking_platform.stations(id),
     route_code VARCHAR(20) NOT NULL UNIQUE,
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
@@ -50,8 +50,8 @@ CREATE TYPE booking_platform.trip_status AS ENUM ('scheduled', 'cancelled', 'com
 
 CREATE TABLE booking_platform.trips(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    route_id INT REFERENCES booking_platform.routes(id),
-    vehicle_id INT REFERENCES booking_platform.vehicles(id),
+    route_id INT NOT NULL REFERENCES booking_platform.routes(id),
+    vehicle_id INT NOT NULL REFERENCES booking_platform.vehicles(id),
     departure_at TIMESTAMPTZ NOT NULL,
     arriaval_at TIMESTAMPTZ NOT NULL,
     status booking_platform.trip_status NOT NULL DEFAULT 'scheduled'
@@ -65,8 +65,8 @@ CREATE TABLE booking_platform.seat_classes(
 
 CREATE TABLE booking_platform.seats(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    vehicle_id INT REFERENCES booking_platform.vehicles(id),
-    seat_class_id INT REFERENCES booking_platform.seat_classes(id),
+    vehicle_id INT NOT NULL REFERENCES booking_platform.vehicles(id),
+    seat_class_id INT NOT NULL REFERENCES booking_platform.seat_classes(id),
     seat_number VARCHAR(10) NOT NULL,
     is_available BOOLEAN NOT NULL DEFAULT TRUE
 );
@@ -86,16 +86,20 @@ CREATE TYPE booking_platform.booking_status AS ENUM ('pending', 'confirmed', 'ca
 
 CREATE TABLE booking_platform.bookings(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    client_id INT REFERENCES booking_platform.clients(id),
-    trip_id INT REFERENCES booking_platform.trips(id),
-    seat_id INT REFERENCES booking_platform.seats(id),
+    client_id INT NOT NULL REFERENCES booking_platform.clients(id),
+    trip_id INT NOT NULL REFERENCES booking_platform.trips(id),
+    seat_id INT NOT NULL REFERENCES booking_platform.seats(id),
     booked_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     status booking_platform.booking_status NOT NULL DEFAULT 'pending'
 );
 
+CREATE UNIQUE INDEX bookings_one_active_per_trip_seat_idx
+    ON booking_platform.bookings (trip_id, seat_id)
+    WHERE status <> 'cancelled';
+
 CREATE TABLE booking_platform.tickets(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    booking_id INT REFERENCES booking_platform.bookings(id),
+    booking_id INT NOT NULL REFERENCES booking_platform.bookings(id),
     ticket_number VARCHAR(30) NOT NULL UNIQUE,
     issued_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     total_price NUMERIC(12, 2) NOT NULL,
@@ -107,7 +111,7 @@ CREATE TYPE booking_platform.payment_status AS ENUM ('pending', 'completed', 'fa
 
 CREATE TABLE booking_platform.payments(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    ticket_id INT REFERENCES booking_platform.tickets(id),
+    ticket_id INT NOT NULL REFERENCES booking_platform.tickets(id),
     amount NUMERIC(12, 2) NOT NULL,
     currency CHAR(3) NOT NULL DEFAULT 'RUB',
     mathod VARCHAR(30) NOT NULL,
