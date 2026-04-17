@@ -32,7 +32,7 @@
 | id                 | INTEGER       | PRIMARY KEY           | Идентификатор                        |
 | carrier_id         | INTEGER       | NOT NULL, FK          | Перевозчик                           |
 | transport_type_id  | INTEGER       | NOT NULL, FK          | Вид транспорта                       |
-| model              | VARCHAR(100)  |                       | Модель (Boeing 737, РЖД Ласточка...) |
+| model              | VARCHAR(100)  | NOT NULL              | Модель (Boeing 737, РЖД Ласточка...) |
 | registration_code  | VARCHAR(50)   | NOT NULL, UNIQUE      | Бортовой/регистрационный номер       |
 | capacity           | SMALLINT      | NOT NULL, CHECK > 0   | Общее количество мест                |
 | in_service_since   | DATE          |                       | Дата ввода в эксплуатацию            |
@@ -74,8 +74,8 @@
 | id                 | INTEGER                    | PRIMARY KEY                   | Идентификатор                            |
 | route_id           | INTEGER                    | NOT NULL, FK                  | Маршрут                                  |
 | vehicle_id         | INTEGER                    | NOT NULL, FK                  | Транспортное средство                    |
-| departure_at       | TIMESTAMP WITH TIME ZONE   | NOT NULL                      | Дата и время отправления                 |
-| arrival_at         | TIMESTAMP WITH TIME ZONE   | NOT NULL                      | Дата и время прибытия                    |
+| departure_at       | TIMESTAMPTZ                | NOT NULL                      | Дата и время отправления                 |
+| arrival_at         | TIMESTAMPTZ                | NOT NULL                      | Дата и время прибытия                    |
 | status             | trip_status                | NOT NULL, DEFAULT 'scheduled' | Статус (scheduled, cancelled, completed) |
 
 ---
@@ -112,7 +112,7 @@
 | birth_date     | DATE          | NOT NULL                 | Дата рождения      |
 | passport_num   | VARCHAR(20)   |                          | Номер документа    |
 | email          | VARCHAR(254)  | UNIQUE                   | Email              |
-| phone          | VARCHAR(30)   |                          | Телефон            |
+| phone          | VARCHAR(30)   | UNIQUE                   | Телефон            |
 | registered_at  | TIMESTAMPTZ   | NOT NULL, DEFAULT NOW()  | Дата регистрации   |
 
 ---
