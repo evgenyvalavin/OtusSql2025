@@ -153,7 +153,7 @@
 | amount         | NUMERIC(12, 2)  | NOT NULL                    | Сумма (положительная — оплата, отрицательная — возврат) |
 | currency       | CHAR(3)         | NOT NULL, DEFAULT 'RUB'     | Валюта                                                  |
 | method         | VARCHAR(30)     | NOT NULL                    | Способ оплаты (card, cash, online)                      |
-| status         | payment_status  | NOT NULL, DEFAULT 'pending' | Статус (pending, completed, failed, refunded)        |
+| status         | payment_status  | NOT NULL, DEFAULT 'pending' | Статус (pending, completed, failed, refunded)           |
 | paid_at        | TIMESTAMPTZ     |                             | Дата и время успешной оплаты                            |
 | created_at     | TIMESTAMPTZ     | NOT NULL, DEFAULT NOW()     | Дата создания записи                                    |
 | external_ref   | VARCHAR(100)    |                             | Ссылка на внешнюю транзакцию                            |
