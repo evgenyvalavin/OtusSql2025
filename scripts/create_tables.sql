@@ -45,7 +45,13 @@ CREATE TABLE booking_platform.routes(
     is_active BOOLEAN NOT NULL DEFAULT TRUE
 );
 
-CREATE TYPE booking_platform.trip_status AS ENUM ('scheduled', 'cancelled', 'completed');
+CREATE TYPE booking_platform.trip_status AS ENUM (
+    'scheduled',
+    'boarding',
+    'departed',
+    'completed',
+    'cancelled'
+);
 
 CREATE TABLE booking_platform.trips(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,

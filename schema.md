@@ -69,14 +69,14 @@
 
 ## trips — Рейсы
 
-| Поле               | Тип                        | Ограничения                   | Описание                                 |
-|--------------------|----------------------------|-------------------------------|------------------------------------------|
-| id                 | INTEGER                    | PRIMARY KEY                   | Идентификатор                            |
-| route_id           | INTEGER                    | NOT NULL, FK                  | Маршрут                                  |
-| vehicle_id         | INTEGER                    | NOT NULL, FK                  | Транспортное средство                    |
-| departure_at       | TIMESTAMPTZ                | NOT NULL                      | Дата и время отправления                 |
-| arrival_at         | TIMESTAMPTZ                | NOT NULL                      | Дата и время прибытия                    |
-| status             | trip_status                | NOT NULL, DEFAULT 'scheduled' | Статус (scheduled, cancelled, completed) |
+| Поле               | Тип                        | Ограничения                   | Описание                                                               |
+|--------------------|----------------------------|-------------------------------|------------------------------------------------------------------------|
+| id                 | INTEGER                    | PRIMARY KEY                   | Идентификатор                                                          |
+| route_id           | INTEGER                    | NOT NULL, FK                  | Маршрут                                                                |
+| vehicle_id         | INTEGER                    | NOT NULL, FK                  | Транспортное средство                                                  |
+| departure_at       | TIMESTAMPTZ                | NOT NULL                      | Дата и время отправления                                               |
+| arrival_at         | TIMESTAMPTZ                | NOT NULL                      | Дата и время прибытия                                                  |
+| status             | trip_status                | NOT NULL, DEFAULT 'scheduled' | Статус ('scheduled', 'boarding', 'departed', 'completed', 'cancelled') |
 
 ---
 
