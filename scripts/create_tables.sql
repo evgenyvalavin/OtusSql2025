@@ -20,7 +20,7 @@ CREATE TABLE booking_platform.carries(
 CREATE TABLE booking_platform.vehicles(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     carrier_id INT NOT NULL REFERENCES booking_platform.carries(id),
-    transport_type_id INT NOT NULL REFERENCES transport_types(id),
+    transport_type_id INT NOT NULL REFERENCES booking_platform.transport_types(id),
     model VARCHAR(100) NOT NULL,
     registration_code VARCHAR(50) NOT NULL UNIQUE,
     capacity SMALLINT NOT NULL CHECK (capacity > 0),
