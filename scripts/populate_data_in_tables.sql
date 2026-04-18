@@ -34,16 +34,16 @@ INSERT INTO booking_platform.stations (name, city, country, iata_code, location,
     ('Dubai International Airport',         'Dubai',            'UAE',     'DXB', ST_MakePoint(55.3644, 25.2532)::geography, 'Asia/Dubai');
 
 -- 4. carries
--- ids: 1=Aeroflot(flight), 2=S7(flight), 3=Russian Railways(train), 4=Avtodor(bus), 5=Turkish Airlines, 6=Lufthansa, 7=Air France, 8=Emirates
-INSERT INTO booking_platform.carries (name, transport_type_id, country, contact_email, contact_phone) VALUES
-    ('Aeroflot',          1, 'Russia',  'carrier1@example.com',   '+7000000010'),
-    ('S7 Airlines',       1, 'Russia',  'carrier2@example.com',   '+7000000020'),
-    ('Russian Railways',  2, 'Russia',  'carrier3@example.com',   '+7000000030'),
-    ('Avtodor Bus Lines', 3, 'Russia',  'carrier4@example.com',   '+7000000040'),
-    ('Turkish Airlines',  1, 'Turkey',  'turkish@example.com',    '+90000000010'),
-    ('Lufthansa',         1, 'Germany', 'lufthansa@example.com',  '+49000000010'),
-    ('Air France',        1, 'France',  'airfrance@example.com',  '+33000000010'),
-    ('Emirates',          1, 'UAE',     'emirates@example.com',   '+97100000010');
+-- ids: 1=Aeroflot, 2=S7, 3=Russian Railways, 4=Avtodor, 5=Turkish Airlines, 6=Lufthansa, 7=Air France, 8=Emirates
+INSERT INTO booking_platform.carries (name, country, contact_email, contact_phone) VALUES
+    ('Aeroflot',          'Russia',  'carrier1@example.com',   '+7000000010'),
+    ('S7 Airlines',       'Russia',  'carrier2@example.com',   '+7000000020'),
+    ('Russian Railways',  'Russia',  'carrier3@example.com',   '+7000000030'),
+    ('Avtodor Bus Lines', 'Russia',  'carrier4@example.com',   '+7000000040'),
+    ('Turkish Airlines',  'Turkey',  'turkish@example.com',    '+90000000010'),
+    ('Lufthansa',         'Germany', 'lufthansa@example.com',  '+49000000010'),
+    ('Air France',        'France',  'airfrance@example.com',  '+33000000010'),
+    ('Emirates',          'UAE',     'emirates@example.com',   '+97100000010');
 
 -- 5. vehicles
 -- ids: 1-2=Aeroflot aircraft, 3=S7 aircraft, 4-5=RZD trains, 6-7=Avtodor buses, 8=Turkish B777, 9=Lufthansa A350, 10=Air France B787, 11=Emirates A380

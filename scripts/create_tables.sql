@@ -11,7 +11,6 @@ CREATE TABLE booking_platform.transport_types(
 CREATE TABLE booking_platform.carries(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
-    transport_type_id INT NOT NULL REFERENCES booking_platform.transport_types(id),
     country VARCHAR(100),
     contact_email VARCHAR(254),
     contact_phone VARCHAR(30)
