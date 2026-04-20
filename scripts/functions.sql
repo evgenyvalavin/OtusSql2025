@@ -10,6 +10,8 @@ BEGIN
     );
 END;
 $$;
+COMMENT ON FUNCTION booking_platform.GetActiveTripsInJson()
+    IS 'Возвращает список всех активных поездок (кроме завершённых и отменённых) в формате JSON.';
 
 SELECT booking_platform.GetActiveTripsInJson() AS active_trips;
 
@@ -32,6 +34,8 @@ BEGIN
     );
 END;
 $$;
+COMMENT ON FUNCTION booking_platform.CalculateTripRevenue(INT)
+    IS 'Вычисляет суммарную выручку по подтверждённым бронированиям для указанной поездки (p_id). Учитывает только невозвращённые билеты. Генерирует исключение, если подтверждённых бронирований не найдено.';
 
 SELECT booking_platform.CalculateTripRevenue(1);
 
@@ -58,5 +62,14 @@ BEGIN
     );
 END;
 $$;
+COMMENT ON FUNCTION booking_platform.GetAvailableSeatsForTrip(INT)
+    IS 'Возвращает список идентификаторов свободных мест для указанной поездки (p_id). Место считается свободным, если оно доступно (is_available = TRUE) и не занято ни одним активным бронированием. Генерирует исключение, если поездка с указанным id не найдена.';
 
 SELECT * FROM booking_platform.GetAvailableSeatsForTrip(1);
+
+--Отобразить все комментарии к созданным функциям
+SELECT p.proname AS function_name, d.description
+FROM pg_proc p
+JOIN pg_description d ON d.objoid = p.oid
+JOIN pg_namespace n ON n.oid = p.pronamespace
+WHERE n.nspname = 'booking_platform';
