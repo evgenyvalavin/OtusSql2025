@@ -209,4 +209,5 @@ BEGIN
 END;
 $$;
 
-CALL booking_platform.CreateBooking(1, 1, 1, 14500, 'RUB');
+CALL booking_platform.CreateBooking(1, 1, 1, 14555, 'RUB');
+CALL booking_platform.CreateBooking(2, 1, 2, 14555, 'RUB');
