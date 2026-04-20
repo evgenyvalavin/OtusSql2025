@@ -71,7 +71,10 @@ INSERT INTO booking_platform.routes (carrier_id, origin_station_id, dest_station
     (5, 1, 9,  'TK-414',  TRUE),  -- Turkish:        SVO -> IST
     (6, 1, 10, 'LH-1457', TRUE),  -- Lufthansa:      SVO -> FRA
     (7, 3, 11, 'AF-1645', TRUE),  -- Air France:     LED -> CDG
-    (8, 2, 12, 'EK-133',  TRUE);  -- Emirates:       DME -> DXB
+    (8, 2, 12, 'EK-133',  TRUE),  -- Emirates:       DME -> DXB
+    (1, 1,  8,  'SU-303',  TRUE),   -- Aeroflot:       SVO -> KZN  (no trips yet)
+    (2, 3,  4,  'S7-402',  FALSE),  -- S7:             LED -> AER  (inactive, no trips)
+    (3, 5,  8,  'RZD-002', TRUE);   -- RZD:            Moscow Leningradsky -> KZN (no trips yet)
 
 -- 7. trips
 INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arriaval_at, status) VALUES
@@ -84,7 +87,12 @@ INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arriaval
     (6, 8,  '2026-05-05 10:30:00+03', '2026-05-05 13:45:00+03', 'scheduled'),  -- Turkish B777,    SVO->IST
     (7, 9,  '2026-05-06 09:00:00+03', '2026-05-06 11:40:00+02', 'scheduled'),  -- Lufthansa A350,  SVO->FRA
     (8, 10, '2026-05-07 14:00:00+03', '2026-05-07 17:00:00+02', 'scheduled'),  -- Air France B787, LED->CDG
-    (9, 11, '2026-05-08 23:00:00+03', '2026-05-09 05:30:00+04', 'scheduled');  -- Emirates A380,   DME->DXB
+    (9, 11, '2026-05-08 23:00:00+03', '2026-05-09 05:30:00+04', 'scheduled'),  -- Emirates A380,   DME->DXB
+    (1, 2,  '2026-05-10 08:00:00+03', '2026-05-10 09:25:00+03', 'scheduled'),  -- Aeroflot A320,   SVO->LED
+    (2, 2,  '2026-05-15 11:00:00+03', '2026-05-15 14:15:00+03', 'scheduled'),  -- Aeroflot A320,   SVO->AER
+    (4, 5,  '2026-05-02 09:30:00+03', '2026-05-02 13:30:00+03', 'scheduled'),  -- Lastochka,       MSK->SPb
+    (3, 3,  '2026-05-06 13:00:00+03', '2026-05-06 15:20:00+03', 'scheduled'),  -- S7 B737,         DME->KZN
+    (9, 11, '2026-05-20 22:00:00+03', '2026-05-21 04:30:00+04', 'scheduled');  -- Emirates A380,   DME->DXB
 
 -- 8. seats
 -- Vehicle 1 (Boeing 737, Aeroflot) — seat ids 1-10
@@ -154,7 +162,12 @@ INSERT INTO booking_platform.clients (first_name, last_name, birth_date, passpor
     ('John',   'Smith',      '1988-06-14', 'GB00000001',  'client6@example.com', '+44000000006', '2025-01-12 08:00:00+00'),
     ('Fatima', 'Al-Rashid',  '1993-03-21', 'AE00000002',  'client7@example.com', '+97100000007', '2025-02-20 10:00:00+04'),
     ('Klaus',  'Weber',      '1975-09-30', 'DE00000003',  'client8@example.com', '+49000000008', '2025-03-05 09:30:00+01'),
-    ('Sophie', 'Dupont',     '1991-12-08', 'FR00000004',  'client9@example.com', '+33000000009', '2025-04-18 11:45:00+02');
+    ('Sophie', 'Dupont',     '1991-12-08', 'FR00000004',  'client9@example.com', '+33000000009', '2025-04-18 11:45:00+02'),
+    ('Yuki',   'Tanaka',     '1987-05-12', 'JP00000010',  'client10@example.com', '+81000000010', '2025-06-01 07:00:00+09'),
+    ('Carlos', 'Rodriguez',  '1983-11-25', 'ES00000011',  'client11@example.com', '+34000000011', '2025-07-14 10:00:00+02'),
+    ('Priya',  'Patel',      '1996-08-03', 'IN00000012',  'client12@example.com', '+91000000012', '2025-09-20 12:30:00+05:30'),
+    ('Andrei', 'Morozov',    '1980-01-17', '0000 000013', 'client13@example.com', '+0000000013',  '2025-10-05 09:00:00+03'),
+    ('Elena',  'Sokolova',   '1992-04-09', '0000 000014', 'client14@example.com', '+0000000014',  '2025-11-22 15:45:00+03');
 
 -- 10. bookings
 INSERT INTO booking_platform.bookings (client_id, trip_id, seat_id, booked_at, status) VALUES
@@ -168,7 +181,17 @@ INSERT INTO booking_platform.bookings (client_id, trip_id, seat_id, booked_at, s
     (6, 7,  45, '2026-04-10 09:00:00+00', 'confirmed'),  -- John,   Trip 7  (TK SVO->IST),        seat 8A  Business
     (7, 10, 61, '2026-04-11 12:00:00+04', 'confirmed'),  -- Fatima, Trip 10 (EK DME->DXB),        seat 1A  First Class
     (8, 8,  51, '2026-04-12 14:00:00+01', 'confirmed'),  -- Klaus,  Trip 8  (LH SVO->FRA),        seat 7A  Business
-    (9, 9,  55, '2026-04-13 10:30:00+02', 'pending');    -- Sophie, Trip 9  (AF LED->CDG),        seat 3A  Business
+    (9, 9,  55, '2026-04-13 10:30:00+02', 'pending'),    -- Sophie, Trip 9  (AF LED->CDG),        seat 3A  Business
+    (10, 11, 12, '2026-04-15 09:00:00+09', 'confirmed'),  -- Yuki,   Trip 11 (A320 SVO->LED),      seat 1B  Business
+    (11, 11, 14, '2026-04-15 11:00:00+02', 'confirmed'),  -- Carlos, Trip 11 (A320 SVO->LED),      seat 15A Economy
+    (12, 12, 11, '2026-04-16 08:30:00+05', 'confirmed'),  -- Priya,  Trip 12 (A320 SVO->AER),      seat 1A  Business
+    (14, 12, 15, '2026-04-16 10:00:00+03', 'confirmed'),  -- Elena,  Trip 12 (A320 SVO->AER),      seat 15B Economy
+    (13, 13, 31, '2026-04-17 09:00:00+03', 'confirmed'),  -- Andrei, Trip 13 (Lastochka MSK->SPb), seat 1   Economy
+    (14, 13, 32, '2026-04-17 09:30:00+03', 'pending'),    -- Elena,  Trip 13 (Lastochka MSK->SPb), seat 2   Economy
+    (10, 14, 20, '2026-04-18 08:00:00+09', 'confirmed'),  -- Yuki,   Trip 14 (S7 DME->KZN),        seat 2B  Business
+    (11, 14, 21, '2026-04-18 09:00:00+02', 'pending'),    -- Carlos, Trip 14 (S7 DME->KZN),        seat 10A Economy
+    (12, 15, 62, '2026-04-19 07:00:00+05', 'confirmed'),  -- Priya,  Trip 15 (EK DME->DXB),        seat 1B  First Class
+    (9,  15, 63, '2026-04-19 11:00:00+02', 'cancelled');  -- Sophie, Trip 15 (EK DME->DXB),        seat 9A  Business
 
 -- 11. tickets
 INSERT INTO booking_platform.tickets (booking_id, ticket_number, issued_at, total_price, currency, is_returned) VALUES
@@ -181,7 +204,16 @@ INSERT INTO booking_platform.tickets (booking_id, ticket_number, issued_at, tota
     (8,  'TKT-2026-000007', '2026-04-10 09:05:00+00',   320.00, 'EUR', FALSE),
     (9,  'TKT-2026-000008', '2026-04-11 12:05:00+04',   850.00, 'USD', FALSE),
     (10, 'TKT-2026-000009', '2026-04-12 14:05:00+01',   480.00, 'EUR', FALSE),
-    (11, 'TKT-2026-000010', '2026-04-13 10:35:00+02',   290.00, 'EUR', FALSE);
+    (11, 'TKT-2026-000010', '2026-04-13 10:35:00+02',   290.00, 'EUR', FALSE),
+    (12, 'TKT-2026-000011', '2026-04-15 09:05:00+09',  7600.00, 'RUB', FALSE),
+    (13, 'TKT-2026-000012', '2026-04-15 11:05:00+02',  4800.00, 'RUB', FALSE),
+    (14, 'TKT-2026-000013', '2026-04-16 08:35:00+05', 12000.00, 'RUB', FALSE),
+    (15, 'TKT-2026-000014', '2026-04-16 10:05:00+03',  5100.00, 'RUB', FALSE),
+    (16, 'TKT-2026-000015', '2026-04-17 09:05:00+03',  3200.00, 'RUB', FALSE),
+    (17, 'TKT-2026-000016', '2026-04-17 09:35:00+03',  3200.00, 'RUB', FALSE),
+    (18, 'TKT-2026-000017', '2026-04-18 08:05:00+09',  4500.00, 'RUB', FALSE),
+    (19, 'TKT-2026-000018', '2026-04-18 09:05:00+02',  4500.00, 'RUB', FALSE),
+    (20, 'TKT-2026-000019', '2026-04-19 07:05:00+05',   920.00, 'USD', FALSE);
 
 -- 12. payments
 INSERT INTO booking_platform.payments (ticket_id, amount, currency, mathod, status, paid_at, created_at, external_ref) VALUES
@@ -194,4 +226,13 @@ INSERT INTO booking_platform.payments (ticket_id, amount, currency, mathod, stat
     (7,    320.00, 'EUR', 'credit_card', 'completed', '2026-04-10 09:12:00+00', '2026-04-10 09:05:00+00', 'EXT-REF-007'),
     (8,    850.00, 'USD', 'credit_card', 'completed', '2026-04-11 12:10:00+04', '2026-04-11 12:05:00+04', 'EXT-REF-008'),
     (9,    480.00, 'EUR', 'debit_card',  'completed', '2026-04-12 14:09:00+01', '2026-04-12 14:05:00+01', 'EXT-REF-009'),
-    (10,   290.00, 'EUR', 'credit_card', 'pending',   NULL,                     '2026-04-13 10:35:00+02', NULL);
+    (10,   290.00, 'EUR', 'credit_card', 'pending',   NULL,                     '2026-04-13 10:35:00+02', NULL),
+    (11,  7600.00, 'RUB', 'credit_card', 'completed', '2026-04-15 09:10:00+09', '2026-04-15 09:05:00+09', 'EXT-REF-011'),
+    (12,  4800.00, 'RUB', 'debit_card',  'completed', '2026-04-15 11:12:00+02', '2026-04-15 11:05:00+02', 'EXT-REF-012'),
+    (13, 12000.00, 'RUB', 'credit_card', 'completed', '2026-04-16 08:40:00+05', '2026-04-16 08:35:00+05', 'EXT-REF-013'),
+    (14,  5100.00, 'RUB', 'sbp',         'completed', '2026-04-16 10:08:00+03', '2026-04-16 10:05:00+03', 'EXT-REF-014'),
+    (15,  3200.00, 'RUB', 'credit_card', 'pending',   NULL,                     '2026-04-17 09:05:00+03', NULL),
+    (16,  4500.00, 'RUB', 'sbp',         'completed', '2026-04-17 09:38:00+03', '2026-04-17 09:35:00+03', 'EXT-REF-016'),
+    (17,  4500.00, 'RUB', 'debit_card',  'pending',   NULL,                     '2026-04-18 09:05:00+02', NULL),
+    (18,  4500.00, 'RUB', 'credit_card', 'completed', '2026-04-18 08:09:00+09', '2026-04-18 08:05:00+09', 'EXT-REF-018'),
+    (19,   920.00, 'USD', 'credit_card', 'completed', '2026-04-19 07:10:00+05', '2026-04-19 07:05:00+05', 'EXT-REF-019');
