@@ -67,6 +67,31 @@ COMMENT ON FUNCTION booking_platform.GetAvailableSeatsForTrip(INT)
 
 SELECT * FROM booking_platform.GetAvailableSeatsForTrip(1);
 
+--4.
+CREATE OR REPLACE FUNCTION booking_platform.GetTripDistance(p_id INT)
+RETURNS NUMERIC(10, 2)
+LANGUAGE plpgsql
+AS $$
+BEGIN
+    IF NOT EXISTS (SELECT 1 FROM booking_platform.trips WHERE id = p_id) THEN
+        RAISE EXCEPTION 'No trip exists for id "%"', p_id;
+    END IF;
+
+    RETURN (
+        SELECT ROUND((ST_Distance(s_origin.location, s_dest.location))::NUMERIC, 2)
+        FROM booking_platform.trips t
+        JOIN booking_platform.routes r ON r.id = t.route_id
+        JOIN booking_platform.stations s_origin ON s_origin.id = r.origin_station_id
+        JOIN booking_platform.stations s_dest ON s_dest.id = r.dest_station_id
+        WHERE t.id = p_id
+    );
+END;
+$$;
+COMMENT ON FUNCTION booking_platform.GetTripDistance(INT)
+    IS 'Возвращает расстояние между станцией отправления и станцией назначения маршрута указанного рейса (p_id) в метрах. Использует географические координаты станций. Генерирует исключение, если рейс с указанным id не найден.';
+
+SELECT booking_platform.GetTripDistance(1);
+
 --Отобразить все комментарии к созданным функциям
 SELECT p.proname AS function_name, d.description
 FROM pg_proc p
