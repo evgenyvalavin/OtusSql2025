@@ -1,4 +1,7 @@
 --1
+-- Создаёт новый рейс (trip) по заданному маршруту, транспортному средству
+-- и временным меткам отправления/прибытия. Проверяет существование станций,
+-- маршрута и воздушного судна, а также отсутствие дублирующегося рейса.
 
 CREATE OR REPLACE PROCEDURE booking_platform.CreateFlightTrip(
     IN p_from_station CHAR(3),
@@ -64,6 +67,8 @@ $$;
 CALL booking_platform.CreateFlightTrip('DME', 'DXB', '2025-01-01 00:00:00+03', '2025-01-01 00:05:31+03', 'D-AIXB');
 
 --2
+-- Переводит статус рейса в 'departed' (вылетел).
+-- Проверяет, что рейс с указанным идентификатором существует.
 
 CREATE OR REPLACE PROCEDURE booking_platform.SetTripStatusDeparted(
     IN p_trip_id INT
@@ -86,6 +91,9 @@ $$;
 CALL booking_platform.SetTripStatusDeparted(3);
 
 --3
+-- Отменяет бронирование: устанавливает статус 'cancelled' для бронирования,
+-- помечает билет как возвращённый (is_returned = TRUE), а также переводит
+-- завершённый платёж в статус 'refunded' или удаляет незавершённый.
 
 CREATE OR REPLACE PROCEDURE booking_platform.CancelBooking(
     IN p_booking_id INT
@@ -126,6 +134,8 @@ $$;
 CALL booking_platform.CancelBooking(12);
 
 --4
+-- Создаёт нового клиента с переданными персональными данными
+-- (имя, фамилия, дата рождения, номер паспорта, email, телефон).
 
 CREATE OR REPLACE PROCEDURE booking_platform.CreateClient(
     IN p_first_name VARCHAR(100),
@@ -148,6 +158,10 @@ $$;
 CALL booking_platform.CreateClient('Evgeny', 'Valavin', '1999-02-17', 'A123456789', 'ev@example.com', '+1 234 567 821');
 
 --5
+-- Создаёт бронирование места на рейс для указанного клиента.
+-- Проверяет существование клиента, доступность рейса для бронирования
+-- и отсутствие уже активного бронирования на то же место.
+-- Автоматически генерирует билет с уникальным номером.
 
 CREATE OR REPLACE PROCEDURE booking_platform.CreateBooking(
     IN p_client_id INT,
