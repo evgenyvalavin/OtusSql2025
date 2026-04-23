@@ -19,3 +19,4 @@ SELECT * FROM pg_stat_activity;
 -- 3. В PgAdmin можем посмотреть использование CPU/RAM. В диспетчере задач (Windows) или top (ubuntu) чтобы посмотреть использование CPU/RAM.
 
 -- 4. Отобразить план запроса через: EXPLAIN ANALYZE
+EXPLAIN ANALYZE SELECT * FROM booking_platform.UpcomingTrips;
