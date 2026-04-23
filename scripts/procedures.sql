@@ -110,7 +110,7 @@ BEGIN
         FROM booking_platform.tickets
         WHERE booking_id = p_booking_id;
 
-        IF (SELECT 1 FROM booking_platform.payments WHERE ticket_id = v_ticket_id AND status = 'completed') THEN
+        IF EXISTS (SELECT 1 FROM booking_platform.payments WHERE ticket_id = v_ticket_id AND status = 'completed') THEN
             UPDATE booking_platform.payments
             SET status = 'refunded'
             WHERE ticket_id = v_ticket_id;
@@ -181,6 +181,13 @@ BEGIN
 
     IF v_vehicle_id IS NULL THEN
         RAISE EXCEPTION 'Trip "%" does not exist or not available for booking.', p_trip_id;
+    END IF;
+
+    IF NOT EXISTS (
+        SELECT 1 FROM booking_platform.seats s
+        WHERE s.id = p_seat_id AND vehicle_id = v_vehicle_id
+    ) THEN
+        RAISE EXCEPTION 'Seat "%" does not belong to the vehicle for this trip.', p_seat_id;
     END IF;
 
     IF EXISTS(
