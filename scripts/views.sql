@@ -24,6 +24,7 @@ CREATE VIEW booking_platform.AvailableSeats AS
         t.id,
         t.departure_at,
         t.arrival_at,
+        sc.name,
         COUNT(s.id) AS total_seats,
         COUNT(b.id) AS booked_seats,
         COUNT(s.id) - COUNT(b.id) AS available_seats
