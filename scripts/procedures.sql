@@ -51,15 +51,8 @@ BEGIN
         RAISE EXCEPTION 'Vehicle with registration code "%" does not exist.', p_vehicle_registration_code;
     END IF;
 
-    IF EXISTS (SELECT * FROM booking_platform.trips
-            WHERE departure_at = p_departure_at
-            AND arrival_at = p_arrival_at
-            AND v_route_id = route_id) THEN
-        RAISE EXCEPTION 'The same trip already exists';
-    ELSE
-        INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arrival_at)
-        VALUES (v_route_id, v_vehicle_id,  p_departure_at, p_arrival_at);
-    END IF;
+    INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arrival_at)
+    VALUES (v_route_id, v_vehicle_id, p_departure_at, p_arrival_at);
 
 END;
 $$;
