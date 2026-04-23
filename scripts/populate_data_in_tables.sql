@@ -33,9 +33,9 @@ INSERT INTO booking_platform.stations (name, city, country, iata_code, location,
     ('Paris Charles de Gaulle Airport',     'Paris',            'France',  'CDG', ST_MakePoint( 2.5479, 49.0097)::geography, 'Europe/Paris'),
     ('Dubai International Airport',         'Dubai',            'UAE',     'DXB', ST_MakePoint(55.3644, 25.2532)::geography, 'Asia/Dubai');
 
--- 4. carries
+-- 4. carriers
 -- ids: 1=Aeroflot, 2=S7, 3=Russian Railways, 4=Avtodor, 5=Turkish Airlines, 6=Lufthansa, 7=Air France, 8=Emirates
-INSERT INTO booking_platform.carries (name, country, contact_email, contact_phone) VALUES
+INSERT INTO booking_platform.carriers (name, country, contact_email, contact_phone) VALUES
     ('Aeroflot',          'Russia',  'carrier1@example.com',   '+7000000010'),
     ('S7 Airlines',       'Russia',  'carrier2@example.com',   '+7000000020'),
     ('Russian Railways',  'Russia',  'carrier3@example.com',   '+7000000030'),
@@ -77,7 +77,7 @@ INSERT INTO booking_platform.routes (carrier_id, origin_station_id, dest_station
     (3, 5,  8,  'RZD-002', TRUE);   -- RZD:            Moscow Leningradsky -> KZN (no trips yet)
 
 -- 7. trips
-INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arriaval_at, status) VALUES
+INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arrival_at, status) VALUES
     (1, 1,  '2026-05-01 06:00:00+03', '2026-05-01 07:25:00+03', 'scheduled'),  -- Aeroflot B737,   SVO->LED
     (1, 2,  '2026-05-02 14:30:00+03', '2026-05-02 15:55:00+03', 'scheduled'),  -- Aeroflot A320,   SVO->LED
     (2, 1,  '2026-05-03 09:00:00+03', '2026-05-03 12:10:00+03', 'scheduled'),  -- Aeroflot B737,   SVO->AER
@@ -216,7 +216,7 @@ INSERT INTO booking_platform.tickets (booking_id, ticket_number, issued_at, tota
     (20, 'TKT-2026-000019', '2026-04-19 07:05:00+05',   920.00, 'USD', FALSE);
 
 -- 12. payments
-INSERT INTO booking_platform.payments (ticket_id, amount, currency, mathod, status, paid_at, created_at, external_ref) VALUES
+INSERT INTO booking_platform.payments (ticket_id, amount, currency, method, status, paid_at, created_at, external_ref) VALUES
     (1,  15000.00, 'RUB', 'credit_card', 'completed', '2026-04-01 10:10:00+03', '2026-04-01 10:05:00+03', 'EXT-REF-001'),
     (2,   8500.00, 'RUB', 'credit_card', 'completed', '2026-04-02 11:10:00+03', '2026-04-02 11:05:00+03', 'EXT-REF-002'),
     (3,   5200.00, 'RUB', 'sbp',         'completed', '2026-04-03 09:40:00+03', '2026-04-03 09:35:00+03', 'EXT-REF-003'),

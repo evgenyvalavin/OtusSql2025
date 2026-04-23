@@ -3,7 +3,7 @@ CREATE FUNCTION booking_platform.create_payment()
 RETURNS TRIGGER AS $$
 BEGIN
 
-    INSERT INTO booking_platform.payments(ticket_id, amount, currency, mathod, status)
+    INSERT INTO booking_platform.payments(ticket_id, amount, currency, method, status)
     VALUES(
         NEW.id,
         NEW.total_price,

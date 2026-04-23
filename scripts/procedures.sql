@@ -53,11 +53,11 @@ BEGIN
 
     IF EXISTS (SELECT * FROM booking_platform.trips
             WHERE departure_at = p_departure_at
-            AND arriaval_at = p_arrival_at
+            AND arrival_at = p_arrival_at
             AND v_route_id = route_id) THEN
         RAISE EXCEPTION 'The same trip already exists';
     ELSE
-        INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arriaval_at)
+        INSERT INTO booking_platform.trips (route_id, vehicle_id, departure_at, arrival_at)
         VALUES (v_route_id, v_vehicle_id,  p_departure_at, p_arrival_at);
     END IF;
 

@@ -50,7 +50,7 @@ TO booking_app;
 
 -- Оперативные таблицы: чтение + запись
 GRANT SELECT, INSERT, UPDATE ON
-    booking_platform.carries,
+    booking_platform.carriers,
     booking_platform.vehicles,
     booking_platform.stations,
     booking_platform.routes,

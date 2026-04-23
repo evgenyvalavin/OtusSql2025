@@ -8,7 +8,7 @@ CREATE TABLE booking_platform.transport_types(
     description TEXT
 );
 
-CREATE TABLE booking_platform.carries(
+CREATE TABLE booking_platform.carriers(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
     name VARCHAR(200) NOT NULL,
     country VARCHAR(100),
@@ -18,7 +18,7 @@ CREATE TABLE booking_platform.carries(
 
 CREATE TABLE booking_platform.vehicles(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    carrier_id INT NOT NULL REFERENCES booking_platform.carries(id),
+    carrier_id INT NOT NULL REFERENCES booking_platform.carriers(id),
     transport_type_id INT NOT NULL REFERENCES booking_platform.transport_types(id),
     model VARCHAR(100) NOT NULL,
     registration_code VARCHAR(50) NOT NULL UNIQUE,
@@ -38,7 +38,7 @@ CREATE TABLE booking_platform.stations(
 
 CREATE TABLE booking_platform.routes(
     id INT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    carrier_id INT NOT NULL REFERENCES booking_platform.carries(id),
+    carrier_id INT NOT NULL REFERENCES booking_platform.carriers(id),
     origin_station_id INT NOT NULL REFERENCES booking_platform.stations(id),
     dest_station_id INT NOT NULL REFERENCES booking_platform.stations(id),
     route_code VARCHAR(20) NOT NULL UNIQUE,
@@ -58,7 +58,7 @@ CREATE TABLE booking_platform.trips(
     route_id INT NOT NULL REFERENCES booking_platform.routes(id),
     vehicle_id INT NOT NULL REFERENCES booking_platform.vehicles(id),
     departure_at TIMESTAMPTZ NOT NULL,
-    arriaval_at TIMESTAMPTZ NOT NULL,
+    arrival_at TIMESTAMPTZ NOT NULL,
     status booking_platform.trip_status NOT NULL DEFAULT 'scheduled'
 );
 
@@ -119,7 +119,7 @@ CREATE TABLE booking_platform.payments(
     ticket_id INT NOT NULL REFERENCES booking_platform.tickets(id),
     amount NUMERIC(12, 2) NOT NULL,
     currency CHAR(3) NOT NULL DEFAULT 'RUB',
-    mathod VARCHAR(30) NOT NULL,
+    method VARCHAR(30) NOT NULL,
     status booking_platform.payment_status NOT NULL DEFAULT 'pending',
     paid_at TIMESTAMPTZ,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),

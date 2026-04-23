@@ -5,7 +5,7 @@ CREATE VIEW booking_platform.UpcomingTrips AS
         sd.name AS origin,
         sa.name AS destination,
         t.departure_at,
-        t.arriaval_at,
+        t.arrival_at,
         v.model
     FROM booking_platform.trips t
     JOIN booking_platform.vehicles v ON v.id = t.vehicle_id
@@ -23,7 +23,7 @@ CREATE VIEW booking_platform.AvailableSeats AS
     SELECT
         t.id,
         t.departure_at,
-        t.arriaval_at,
+        t.arrival_at,
         COUNT(s.id) AS total_seats,
         COUNT(b.id) AS booked_seats,
         COUNT(s.id) - COUNT(b.id) AS available_seats
